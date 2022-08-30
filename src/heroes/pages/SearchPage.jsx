@@ -22,7 +22,12 @@ export const SearchPage = () => {
         event.preventDefault();
         // if ( txtSearch.trim().length <= 1 ) return;
 
-        navigate(`?q=${ txtSearch }`);
+        navigate(`?q=${ document.getElementById('txtSearch').value }`);
+    }
+
+    const twoCalls = ( e ) => {
+        onInputChange(e);
+        onSearch(e);
     }
 
     return (
@@ -34,15 +39,16 @@ export const SearchPage = () => {
                 <div className="col-5">
                     <h4>Searching</h4>
                     <hr />
-                    <form onSubmit={ onSearch }>
+                    <form onSubmit={ onSearch } aria-label="input-form">
                         <input
                             type="text"
                             placeholder="Look for a hero..."
                             className="form-control"
                             name="txtSearch"
                             autoComplete="off"
+                            id="txtSearch"
                             value={ txtSearch }
-                            onChange={ onInputChange }
+                            onChange={ twoCalls }
                         />
 
                         <button
@@ -66,8 +72,8 @@ export const SearchPage = () => {
                         Search a hero
                     </div>
 
-                    <div className="alert alert-danger animate__animated animate__fadeIn" style={{ display: showError ? '' : 'none' }}>
-                        No heroes matched <b>{ q }</b>
+                    <div data-testid="no-match-section" className="alert alert-danger animate__animated animate__fadeIn" style={{ display: showError ? '' : 'none' }}>
+                        No heroes matched <b>{ txtSearch }</b>
                     </div>
 
                     {
